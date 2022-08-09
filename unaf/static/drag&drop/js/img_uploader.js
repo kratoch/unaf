@@ -1,0 +1,17 @@
+jQuery('#file-es').fileinput({
+        theme: 'fas',
+        language: 'es',
+        allowedFileExtensions: ['jpg', 'png', 'jpeg'],
+        maxFileCount: 4,
+        resizeIfSizeMoreThan: 50,
+        uploadAsync: true,
+        showUpload: true,
+        showRemove: false,
+        showClose: false,
+        showBrowse: false,
+        browseOnZoneClick: true,
+        showUploadedThumbs: true,
+        uploadLabel: "Aceptar",
+        uploadClass: "btn-primary",
+        //previewClass: "bg-white",
+});

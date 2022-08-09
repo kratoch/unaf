@@ -1,0 +1,311 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block breadcrumbs %}
+
+{% endblock %}
+{% block content %}
+        <div id="notifications" class="brk-info-menu">
+            <div class="brk-info-menu__bar">
+                <button class="brk-info-menu__close"><i class="fas fa-times"></i></button>
+                <div class="d-flex mt-10">
+                    <div>
+                        <h3 class="brk-info-menu__header font__family-montserrat font__weight-bold font__size-21 pl-0">Notificaciones</h3>
+                    </div>
+                </div>
+                <div class="brk-categories mb-20" data-brk-library="component__widgets">
+                    <ul class="list-inline-4" data-brk-library="component__list">
+                        <li class="font__family-montserrat font__size-16" data-toggle="modal" data-target="#construction">
+                            <span class="before"></span><a href="#">Put a plan into action <i class="icon fa fa-angle-right"></i></a><span class="after"></span>
+                        </li>
+                        <li class="font__family-montserrat font__size-16" data-toggle="modal" data-target="#construction">
+                            <a href="#">Put a plan into action <i class="icon fa fa-angle-right"></i></a><span class="after"></span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+  		<section>
+  			<div class="row no-gutters col-10 ml-100 mt-50">
+  				<div class="col-lg-6">
+  					<article class="brk-tiles-clean" data-brk-library="component__tiles">
+  						<div class="brk-tiles-clean__thumb" style="background-image: url({% static 'img/consumos.png' %})"></div>
+  						<div class="brk-tiles-clean__content">
+  							<h4 class="font__family-montserrat font__weight-bold mb-0">Consumo</h4>
+  							<a class="brk-tiles-clean__link" href="{% url 'move:consumption' %}"><i class="far fa-angle-right"></i><span>Ingresar</span></a>
+  						</div>
+  					</article>
+  				</div>
+  				<div class="col-lg-6">
+  					<article class="brk-tiles-clean" data-brk-library="component__tiles">
+  						<div class="brk-tiles-clean__thumb" style="background-image: url({% static 'img/perdidas.png' %})"></div>
+  						<div class="brk-tiles-clean__content">
+  							<h4 class="font__family-montserrat font__weight-bold mb-0">Perdida</h4>
+  							<a class="brk-tiles-clean__link" href=""><i class="far fa-angle-right"></i><span>Ingresar</span></a>
+  						</div>
+  					</article>
+  				</div>
+  				{% comment %} <div class="col-lg-6">
+  					<article class="brk-tiles-clean brk-tiles-clean_left" data-brk-library="component__tiles">
+  						<div class="brk-tiles-clean__thumb" style="background-image: url(/../static/img/ventas.png)"></div>
+  						<div class="brk-tiles-clean__content">
+  							<h4 class="font__family-montserrat font__weight-bold mb-0">Transferencia</h4>
+  							<a class="brk-tiles-clean__link" href="{% url 'move:transferencia' %}"><i class="far fa-angle-right"></i><span>Ingresar</span></a>
+  						</div>
+  					</article>
+  				</div>
+  				<div class="col-lg-6">
+  					<article class="brk-tiles-clean brk-tiles-clean_left" data-brk-library="component__tiles">
+  						<div class="brk-tiles-clean__thumb" style="background-image: url(/../static/img/compras.png)"></div>
+  						<div class="brk-tiles-clean__content">
+  							<h4 class="font__family-montserrat font__weight-bold mb-0">Compra</h4>
+  							<a class="brk-tiles-clean__link" href="#"><i class="far fa-angle-right"></i><span>Ingresar</span></a>
+  						</div>
+  					</article>
+  				</div> {% endcomment %}
+  				<div class="col-lg-6">
+  					<article class="brk-tiles-clean brk-tiles-clean_left" data-brk-library="component__tiles">
+  						<div class="brk-tiles-clean__thumb" style="background-image: url({% static 'img/reactivos.png' %})"></div>
+  						<div class="brk-tiles-clean__content">
+  							<h4 class="font__family-montserrat font__weight-bold mb-0">Reactivos</h4>
+  							<a class="brk-tiles-clean__link" href="{% url 'core:reagent_stock' %}"><i class="far fa-angle-right"></i><span>Ingresar</span></a>
+  						</div>
+  					</article>
+  				</div>
+  				<div class="col-lg-6">
+  					<article class="brk-tiles-clean brk-tiles-clean_left" data-brk-library="component__tiles">
+  						<div class="brk-tiles-clean__thumb" style="background-image: url({% static 'img/historiales.jpg' %})"></div>
+  						<div class="brk-tiles-clean__content">
+  							<h4 class="font__family-montserrat font__weight-bold mb-0">Historial</h4>
+  							<a class="brk-tiles-clean__link" href="{% url 'move:record' 0 %}"><i class="far fa-angle-right"></i><span>Ingresar</span></a>
+  						</div>
+  					</article>
+  				</div>
+  			</div>
+  		</section>
+        <section>
+            <div class="mt-110 text-center">
+                <div id="theme" class="mt-90">
+                    <h4 class="title__divider title__divider--gradient font__size-32 font__weight-bold font__family-montserrat line__height-24 text-center" data-brk-library="component__dividers">
+                        <span class="title__divider__wrapper">
+                            <i class="fas fa-circle-notch brk-base-font-color"></i><span class="line-left brk-base-bg-gradient-12"></span><span class="line-right brk-base-bg-gradient-11"></span>
+                        </span>
+                    </h4>
+                </div>
+                <div>
+                    <h2 class="title__heading-06 title__heading-sub wow zoomIn font__family-montserrat font__size-46 font__weight-bold" data-brk-library="component__title">
+                        Preferencias
+                    </h2>
+                    <h2 class="title__heading-06  title__heading-main font__family-montserrat font__size-30 font__weight-ultralight" data-brk-library="component__title">
+                        <span class="font__weight-extrabold">Temas</span>
+                    </h2>
+                </div>
+            </div>
+            <div class="brk-form brk-form-round ml-100 mt-20" data-brk-library="component__form">
+                <form enctype="multipart/form-data" method="GET" action="{% url 'core:menu' %}">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-xl-5 col-md-7">
+                            <div class="brk-form-wrap mt-2">
+                                <select id="theme" name="theme" required>
+                                    <option value="">Seleccione un color:</option>
+                                    <option value="brk-black">Dark (por defecto)</option>
+                                    <option value="brk-green-1">Aguamarina</option>
+                                    <option value="brk-yellow">Amarillo</option>
+                                    <option value="brk-gray-yellow">Amarillo y gris</option>
+                                    <option value="brk-blue">Azul</option>
+                                    <option value="brk-dark-blue-1">Azul medio</option>
+                                    <option value="brk-dark-blue">Azul oscuro</option>
+                                    <option value="brk-orange">Naranja</option>
+                                    <option value="brk-purple">Purpura</option>
+                                    <option value="brk-purple-pink">Purpura y Rosa</option>
+                                    <option value="brk-red">Rojo y Naranja</option>
+                                    <option value="brk-pink">Rosa</option>
+                                    <option value="brk-green">Verde</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-gradient btn-sm-1 border-radius-5 font__family-montserrat font__weight-light brk-white-font-color" data-brk-library="component__button">
+                            <span>Aplicar</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </section>
+		<section>
+            <div class="text-center">
+                <div id="profile" class="mt-90">
+                    <h4 class="title__divider title__divider--gradient font__size-32 font__weight-bold font__family-montserrat line__height-24 text-center" data-brk-library="component__dividers">
+                        <span class="title__divider__wrapper">
+                            <i class="fas fa-circle-notch brk-base-font-color"></i><span class="line-left brk-base-bg-gradient-12"></span><span class="line-right brk-base-bg-gradient-11"></span>
+                        </span>
+                    </h4>
+                </div>
+                <div>
+                    <h2 class="title__heading-06 title__heading-sub wow zoomIn font__family-montserrat font__size-46 font__weight-bold" data-brk-library="component__title">
+                        Mi Cuenta
+                    </h2>
+                    <h2 class="title__heading-06  title__heading-main font__family-montserrat font__size-30 font__weight-ultralight" data-brk-library="component__title">
+                        <span class="font__weight-extrabold">Perfil</span>
+                    </h2>
+                </div>
+
+            </div>
+			<div class="container ml-100">
+				<div class="row">
+					<div class="col-12 col-lg-3 position-relative mt-50">
+						<div class="position-lg-relative">
+                                <img class="lazyload w-100 rounded-circle" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAE"
+                                     data-src="{% if person.profileImage %}{{ person.profileImage.url }}{% else %}{% static 'img/profile_picture.png' %}{% endif %}" alt="imagen de perfil">
+						</div>
+                        <div class="text-right">
+                            <span data-toggle="modal" data-target="#imageModal">
+                                <a href="#profile" class="icon__btn icon__btn-sm icon__btn-anim" data-toggle="tooltip" title="cambiar foto de perfil" data-brk-library="component__button">
+                                    <i class="fa fa-edit icon-inside" aria-hidden="true"></i>
+                                </a>
+                            </span>
+                        </div>
+					</div>
+					<div class="col-12 col-lg-8 position-relative mt-lg-80">
+						<div class="position-lg-relative">
+							<div class="position-relative z-index-1 lazyload">
+                                <div class="brk-abs-overlay bg-white opacity-90"></div>
+                                <h2 class="font__family-oxygen font__size-64 line__height-68">
+                                    {{ person.user.last_name }}
+                                    <br>{{ person.user.first_name }}
+                                    <p class="font__family-oxygen font__size-34 line__height-36">({{ person.user.username }})</p>
+                                </h2>
+						    </div>
+                            {% if person.description %}
+                                <p class="pr-30 pr-xs-0 font__family-oxygen font__size-16 font__weight-light line__height-28 brk-dark-font-color mb-5 mb-lg-0 text-center text-lg-left">
+                                {{ person.description }}
+                                </p>
+                            {% endif %}
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<br>
+        <section>
+			<div class="container">
+                <div class="row">
+                    {% if person.cellphone %}
+                        <div class="col-lg-3">
+                            <div class="services-architecture" data-brk-library="component__services">
+                                <div class="services-architecture__icon">
+                                    <i class="fas fa-mobile-alt"></i>
+                                </div>
+                                <div class="services-architecture__container">
+                                    <h4 class="font__size-21 line__height-24 text-uppercase font__weight-bold pb-10">Celular</h4>
+                                    <span class="font__size-14 line__height-24 brk-dark-blur-font-color">{{ person.cellphone }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                    {% if person.phone %}
+                        <div class="col-lg-3">
+                            <div class="services-architecture" data-brk-library="component__services">
+                                <div class="services-architecture__icon">
+                                    <i class="fas fa-phone"></i>
+                                </div>
+                                <div class="services-architecture__container">
+                                    <h4 class="font__size-21 line__height-24 text-uppercase font__weight-bold pb-10">Teléfono</h4>
+                                    <span class="font__size-14 line__height-24 brk-dark-blur-font-color">{{ person.phone }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                    {% if person.condition %}
+                        <div class="col-lg-3">
+                            <div class="services-architecture" data-brk-library="component__services">
+                                <div class="services-architecture__icon">
+                                    <i class="fas fa-flask"></i>
+                                </div>
+                                <div class="services-architecture__container">
+                                    <h4 class="font__size-21 line__height-24 text-uppercase font__weight-bold pb-10">Puesto</h4>
+                                    <span class="font__size-14 line__height-24 brk-dark-blur-font-color">{{ person.condition.denom }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+        <section>
+            <div class="mt-110 text-center">
+                {% if 'consultOk' in request.GET %}
+                    <div class="d-flex align-content-center">
+                        <div class="alert fade alert-simple alert-success alert-dismissible text-left font__family-montserrat font__size-16 font__weight-light" role="alert" data-brk-library="component__alert">
+                            <button type="button" class="close font__size-18" data-dismiss="alert">
+                                <span aria-hidden="true"><i class="fal fa-times"></i></span>
+                                <span class="sr-only">Close</span>
+                            </button>
+                            <i class="start-icon far fa-check-circle"></i>
+                            Su <strong class="font__weight-semibold">mensaje</strong> fue <strong class="font__weight-semibold">enviado con exito</strong>!! &nbsp;&nbsp;
+                        </div>
+                    </div>
+                {% endif %}
+                <div id="contact" class="mt-90">
+                    <h4 class="title__divider title__divider--gradient font__size-32 font__weight-bold font__family-montserrat line__height-24 text-center" data-brk-library="component__dividers">
+                        <span class="title__divider__wrapper">
+                            <i class="fas fa-circle-notch brk-base-font-color"></i><span class="line-left brk-base-bg-gradient-12"></span><span class="line-right brk-base-bg-gradient-11"></span>
+                        </span>
+                    </h4>
+                </div>
+                <div>
+                    <h2 class="title__heading-06 title__heading-sub wow zoomIn font__family-montserrat font__size-46 font__weight-bold" data-brk-library="component__title">
+                        Soporte
+                    </h2>
+                    <h2 class="title__heading-06  title__heading-main font__family-montserrat font__size-30 font__weight-ultralight" data-brk-library="component__title">
+                        <span class="font__weight-extrabold">Contacto</span>
+                    </h2>
+                </div>
+				<div class="row">
+					<div class="col-lg-1"></div>
+					<div class="col-lg-6 px-0">
+						<form action="{% url 'core:menu' %}" method="post" class=" brk-form-strict pt-15 wow fadeInLeft" data-brk-library="component__form">
+                            {% csrf_token %}
+							<div class="row">
+								<div class="col-12 mt-120">
+									<textarea name="consult" class="bordered-bottom" placeholder="escribe tu consulta aquí..." required></textarea>
+								</div>
+							</div>
+							<div class="text-center">
+								<button type="submit" class="btn btn-inside-out btn-lg btn-icon border-radius-30 mt-25 btn-shadow" data-brk-library="component__button">
+									<i class="far fa-paper-plane icon-inside"></i>
+									<span class="before">enviar</span><span class="text">enviar</span><span class="after">enviar</span>
+								</button>
+							</div>
+						</form>
+					</div>
+					<div class="col-lg-5 px-0">
+						<div class="wow fadeInRight mt-50">
+							<h1 class="font__family-montserrat font__size-56 line__height-60 font__weight-thin mb-30">
+								Necesitas ayuda? <br>
+								<span class="font__weight-bold">Contáctanos</span>
+							</h1>
+							<p class="brk-dark-font-color font__size-14 line__height-26 mb-35">Nos comunicaremos a la brevedad. </p>
+							<p class="font__family-open-sans font__weight-bold font__size-14 mb-15">
+								<i class="brk-footer-icon text-middle fa fa-envelope line__height-24 brk-base-font-color"></i>
+								<a href="mailto:claudiokratoch@gmail.com" class="show-inline-block">claudiokratoch@gmail.com</a>
+							</p>
+							<p class="font__family-open-sans font__weight-bold font__size-14 mb-15">
+								<i class="brk-footer-icon text-middle fas fa-map-marker-alt line__height-24 brk-base-font-color"></i>
+								<a href="https://www.google.com.ar/maps/place/Rosario,+Santa+Fe/@-32.9520457
+								,-60.766679,12z/data=!3m1!4b1!4m5!3m4!1s0x95b6539335d7d75b:0xec4086e90258a557!
+								8m2!3d-32.9587022!4d-60.6930416" target="_blank">Rosario, Argentina</a>
+							</p>
+							<p class="font__family-open-sans font__weight-bold font__size-14 mb-15">
+								<i class="brk-footer-icon text-middle fa fa-phone line__height-24 brk-base-font-color"></i>
+								<a href="tel:3416656241" class="show-inline-block">+54 9 341 665-6241</a>
+							</p>
+							<p class="font__family-open-sans font__weight-bold font__size-14 mb-15">
+                                <i class="brk-footer-icon text-middle line__height-24 brk-base-font-color fab fa-whatsapp"></i>
+								<a href="https://api.whatsapp.com/send?phone=5493416656241&text=Hola,%20necesito%20hacerles%20una%20consulta%20" target="_blank" class="show-inline-block">+54 9 341 665-6241</a>
+							</p>
+						</div>
+					</div>
+				</div>
+            </div>
+        </section>
+    {% endblock %}

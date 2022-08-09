@@ -1,0 +1,464 @@
+{% load static %}
+
+{% block html %}
+<html lang="es" data-brk-skin="{% if person.colorProfile %}{{ person.colorTheme }}{% else %}brk-black{% endif %}">
+{% block head %}
+    <head>
+        <title>{% block title %}Unaf{% endblock %}</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1,maximum-scale=1">
+        <meta name="format-detection" content="telephone=no">
+        <link rel="shortcut icon" href="{% static 'favicon.ico' %}">
+        <link rel="apple-touch-icon-precomposed" href="{% static 'favicon.ico' %}">
+        <meta name="theme-color" content="#2775FF">
+        <meta name="keywords" content="themeforest, theme, html, template">
+        <meta name="description" content="themeforest, theme, html, template">
+        <link rel="stylesheet" id="brk-direction-bootstrap" href="{% static 'css/assets/bootstrap.css' %}">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
+              integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+        {% if person.colorTheme %}
+            <link rel="stylesheet" id="brk-skin-color" href="/../static/css/skins/{{ person.colorTheme }}.css">
+        {% else %}
+            <link rel="stylesheet" id="brk-skin-color" href="/../static/css/skins/brk-black.css">
+        {% endif %}
+        <link id="brk-base-color" rel="stylesheet" href="{% static 'css/skins/brk-base-color.css' %}">
+        <link rel="stylesheet" href="{% static 'css/assets/offsets.css' %}">
+        <link id="brk-css-min" rel="stylesheet" href="{% static 'css/assets/styles.min.css' %}">
+        <!--link id="css-google-fonts" href="//fonts.googleapis.com/css?family+Montserrat:100,200,300,400,500,600,700" rel="stylesheet"-->
+        <link href="/../static/drag&drop/css/fileinput.css" media="all" rel="stylesheet" type="text/css"/>{% block head-page %}
+        <link href="/../static/drag&drop/themes/explorer-fas/theme.css" media="all" rel="stylesheet" type="text/css"/>{% endblock %}
+        {% block head_page %}
+        {% endblock %}
+    </head>
+{% endblock %}
+
+{% block body %}
+<body>
+
+{% block right-lateral_panel %}
+	<div class="brk-loader">
+		<div class="brk-loader__loader"></div>
+	</div>
+	<style>
+		#rev_slider_62_1 .metis.tparrows {
+			background: rgba(227, 0, 0, 1);
+			padding: 5px;
+			transition: all 0.3s;
+			-webkit-transition: all 0.3s;
+			width: 50px;
+			height: 50px;
+			box-sizing: border-box
+		}
+
+		#rev_slider_62_1 .metis.tparrows:hover {
+			background: rgba(227, 0, 0, 1)
+		}
+
+		#rev_slider_62_1 .metis.tparrows:before {
+			color: rgb(255, 255, 255);
+			transition: all 0.3s;
+			-webkit-transition: all 0.3s
+		}
+
+		#rev_slider_62_1 .metis.tparrows:hover:before {
+			transform: scale(1.5)
+		}
+
+		.hebe.tp-bullets:before {
+			content: " ";
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			background: transparent;
+			padding: 10px;
+			margin-left: -10px;
+			margin-top: -10px;
+			box-sizing: content-box
+		}
+
+		.hebe .tp-bullet {
+			width: 3px;
+			height: 3px;
+			position: absolute;
+			background: rgba(255, 255, 255, 1);
+			cursor: pointer;
+			border: 5px solid rgba(0, 0, 0, 1);
+			border-radius: 50%;
+			box-sizing: content-box;
+			-webkit-perspective: 400px;
+			perspective: 400px;
+			-webkit-transform: translatez(0.01px);
+			transform: translatez(0.01px);
+			transition: all 0.3s
+		}
+
+		.hebe .tp-bullet:hover,
+		.hebe .tp-bullet.selected {
+			background: rgba(0, 0, 0, 1);
+			border-color: rgba(255, 255, 255, 1)
+		}
+
+		.hebe .tp-bullet-image {
+			position: absolute;
+			width: 70px;
+			height: 70px;
+			background-position: center center;
+			background-size: cover;
+			visibility: hidden;
+			opacity: 0;
+			bottom: 3px;
+			transition: all 0.3s;
+			-webkit-transform-style: flat;
+			transform-style: flat;
+			perspective: 600px;
+			-webkit-perspective: 600px;
+			transform: scale(0) translateX(-50%) translateY(0%);
+			-webkit-transform: scale(0) translateX(-50%) translateY(0%);
+			transform-origin: 0% 100%;
+			-webkit-transform-origin: 0% 100%;
+			margin-bottom: 15px;
+			border-radius: 6px
+		}
+
+		.hebe .tp-bullet:hover .tp-bullet-image {
+			display: block;
+			opacity: 1;
+			transform: scale(1) translateX(-50%) translateY(0%);
+			-webkit-transform: scale(1) translateX(-50%) translateY(0%);
+			visibility: visible
+		}
+
+		.hebe.nav-dir-vertical .tp-bullet-image {
+			bottom: auto;
+			margin-right: 15px;
+			margin-bottom: 0px;
+			right: 3px;
+			transform: scale(0) translateX(0px) translateY(-50%);
+			-webkit-transform: scale(0) translateX(0px) translateY(-50%);
+			transform-origin: 100% 0%;
+			-webkit-transform-origin: 100% 0%
+		}
+
+		.hebe.nav-dir-vertical .tp-bullet:hover .tp-bullet-image {
+			transform: scale(1) translateX(0px) translateY(-50%);
+			-webkit-transform: scale(1) translateX(0px) translateY(-50%)
+		}
+
+		.hebe.nav-dir-vertical.nav-pos-hor-left .tp-bullet-image {
+			bottom: auto;
+			margin-left: 15px;
+			margin-bottom: 0px;
+			left: 3px;
+			transform: scale(0) translateX(0px) translateY(-50%);
+			-webkit-transform: scale(0) translateX(0px) translateY(-50%);
+			transform-origin: 0% 0%;
+			-webkit-transform-origin: 0% 0%
+		}
+
+		.hebe.nav-dir-vertical.nav-pos-hor-left .tp-bullet:hover .tp-bullet-image {
+			transform: scale(1) translateX(0px) translateY(-50%);
+			-webkit-transform: scale(1) translateX(0px) translateY(-50%)
+		}
+
+		.hebe.nav-pos-ver-top.nav-dir-horizontal .tp-bullet-image {
+			bottom: auto;
+			top: 3px;
+			transform: scale(0) translateX(-50%) translateY(0%);
+			-webkit-transform: scale(0) translateX(-50%) translateY(0%);
+			transform-origin: 0% 0%;
+			-webkit-transform-origin: 0% 0%;
+			margin-top: 15px;
+			margin-bottom: 0px
+		}
+
+		.hebe.nav-pos-ver-top.nav-dir-horizontal .tp-bullet:hover .tp-bullet-image {
+			transform: scale(1) translateX(-50%) translateY(0%);
+			-webkit-transform: scale(1) translateX(-50%) translateY(0%)
+		}
+	</style>
+{% endblock %}
+
+{% block main_page %}
+	<div class="brk-loader">
+		<div class="brk-loader__loader"></div>
+	</div>
+	<div class="main-page" id="info">
+    {% block mobile %}
+		<div class="brk-header-mobile">
+			<div class="brk-header-mobile__open">
+				<span></span>
+			</div>
+		</div>
+    {% endblock %}
+    {% block header-page %}
+		<header class="brk-header brk-header_vertical brk-header_style-1 brk-header_color-dark brk-header_skin-1 position-fixed" data-brk-library="component__header">
+			<div class="brk-header__main-bar bg-white brk-base-box-shadow" style="height: 68px;">
+				<div class="row justify-content-lg-between">
+					<div class="col-lg-auto">
+						<div class="d-lg-flex">
+							<div class="text-center brk-bg-primary d-none d-lg-block">
+								<a href="{% url 'core:menu' %}" class="brk-header__logo brk-header__item @@modifier">
+									<img class="brk-header__logo py-2 px-3 lazyload" src="{% static 'img/logo-unaf-white-248x296.png' %}" alt="alt">
+								</a>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-auto">
+  					    <div class="brk-header-popup-menu">
+  					    	<div class="brk-header-popup-menu__open-close font__family-montserrat font__weight-light font__size-14 letter-spacing-40">
+  					    		<div class="brk-open"><i class="fas fa-bars"></i> Menú</div>
+  					    		<div class="brk-close"><i class="fal fa-times"></i> Cerrar</div>
+  					    	</div>
+  					    	<div class="brk-header-popup-menu__menu text-lg-center font__family-roboto font__weight-thin">
+  					    		<ul>
+  					    			<li>
+                                        <a href="{% url 'core:menu' %}"><i class="fas fa-home"></i></a>
+                                    </li>
+  					    			<li>
+                                        <a href="{% url 'core:menu' %}#profile" class="icon__btn icon__btn-lg icon__btn-circled mb-1" data-brk-library="component__button">
+                                            <img src="{% if person.profileImage %}{{ person.profileImage.url }}{% else %}{% static 'img/profile_picture.png' %}{% endif %}" class="rounded-circle">
+                                        </a>
+                                        <p class="text-white font__size-30 ">{{ person.user.username }}</p>
+                                        <ul>
+  					    					<li>
+  					    						<a href="{% url 'core:menu' %}#profile">Ver</a>
+  					    					</li>
+  					    					<li>
+  					    						<a href="javascript:void(0)" data-toggle="modal" data-target="#construction">Editar</a>
+  					    					</li>
+  					    				</ul>
+                                    </li>
+  					    			<li>
+  					    				<a href="javascript:void(0)">Movimiento</a>
+  					    				<ul>
+  					    					<li>
+  					    						<a href="{% url 'move:consumption' %}">Consumo</a>
+  					    					</li>
+  					    					<li data-toggle="modal" data-target="#construction">
+  					    						<a href="javascript:void(0)">Perdida</a>
+  					    					</li>
+  					    				</ul>
+  					    			</li>
+  					    			<li>
+  					    				<a href="{% url 'core:reagent_stock' %}">Reactivos</a>
+  					    				<ul>
+  					    					<li>
+  					    						<a href="{% url 'core:reagent_stock' %}">ABML</a>
+  					    					</li>
+  					    					<li>
+  					    						<a href="{% url 'core:reagent_create' %}">Alta</a>
+  					    					</li>
+  					    				</ul>
+  					    			</li>
+  					    			<li>
+  					    				<a href="{% url 'move:record' 0 %}">Historial</a>
+  					    			</li>
+  					    			<li>
+  					    				<a href="{% url 'core:menu' %}#preferences">Preferencias</a>
+  					    				<ul>
+  					    					<li data-toggle="modal" data-target="#construction">
+  					    						<a href="javascript:void(0)">Notificaciones</a>
+  					    					</li>
+  					    					<li>
+  					    						<a href="{% url 'core:menu' %}#theme">Temas</a>
+  					    					</li>
+  					    				</ul>
+  					    			</li>
+  					    			<li>
+                                        <a href="javascript:void(0)">Soporte</a>
+                                        <ul>
+  					    					<li>
+  					    						<a href="{% url 'core:menu' %}#contact">Contacto</a>
+  					    					</li>
+  					    				</ul>
+                                    </li>
+  					    			<li>
+                                        <a target="_blank" href="{% url 'admin:index' %}">Panel Administrador</a>
+                                    </li>
+  					    			<li>
+                                        <a href="{% url 'user:logoutPage' %}" class="text-danger">Cerrar sesión</a>
+                                    </li>
+  					    		</ul>
+  					    	</div>
+  					    </div>
+  					</div>
+					{% block notifications-btn %}
+                    <div class="col-lg-auto">
+                        <div class="brk-mini-cart brk-header__item">
+                                {% if notificaciones.count > 0 %}
+                                  <a href="#" class="brk-mini-cart__open d-flex">
+                                {% else %}
+                                  <a href="{% url 'core:menu' %}" class="brk-mini-cart__open d-flex">
+                                {% endif %}
+                                <i class="fas fa-bell" aria-hidden="true"></i>
+                                <span class="brk-mini-cart__label font__family-montserrat font__weight-medium text-uppercase letter-spacing-60 font__size-10 opacity-80">Notificaciones</span>
+                                <span class="brk-mini-cart__title">Notificaciones</span>
+                                {% if notificaciones.count > 0 %}
+                                  <span class="brk-mini-cart__count">{{ notificaciones.count }}</span>
+                                {% endif %}
+                            </a>
+                            {% if notificaciones.count > 0 %}
+                            <div class="brk-mini-cart__menu">
+                                <div class="brk-mini-cart__header">
+                                    <span class="font__family-montserrat font__weight-bold font__size-14">Notificaciones</span>
+                                </div>
+                                {% for n in notificaciones %}
+                                    <div class="brk-mini-cart__products">
+                                        {% if n.transferencia_request %}
+{#                                            <a href="{% url 'move:transferencia_request' n.transferencia_request.id %}">#}
+                                            <a href="#">
+                                                <div class="brk-mini-cart__product py-1">
+                                                    <div class="d-block">
+                                                        <p class="font__family-montserrat font__size-12 line__height-19 font__weight-semibold fullwidthbanner-container text-left">{{ n.denominacion }}</p>
+                                                        <p class="font__family-montserrat font__size-10 line__height-16 text-left">{{ n.descripcion }}</p>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        {% else %}
+                                            <a href="{% url 'core:menu' %}">
+                                                <div class="brk-mini-cart__product py-1">
+                                                    <div class="d-block">
+                                                        <p class="font__family-montserrat font__size-12 line__height-19 font__weight-semibold fullwidthbanner-container text-left">{{ n.denominacion }}</p>
+                                                        <p class="font__family-montserrat font__size-10 line__height-16 text-left">{{ n.descripcion }}</p>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        {% endif %}
+                                    </div>
+                                {% endfor %}
+                                <div class="brk-mini-cart__links">
+                                    <div class="brk-mini-cart__links--wrap">
+                                        <a class="brk-mini-cart__links--cart" href="{% url 'core:menu' %}"><i class="fa fa-bell mt-3"></i></a>
+                                        <a class="brk-mini-cart__links--checkout" href="{% url 'core:menu' %}">Ver todas <i class="far fa-arrow-right"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+					</div>
+					{% endblock %}
+				</div>
+			</div>
+        </header>
+    {% endblock %}
+    {% block breadcrumbs %}
+				<div class="breadcrumbs__section breadcrumbs__section-line brk-base-bg-5 pt-40 pb-30 bg__style" data-brk-library="component__breadcrumbs_css">
+					<div class="container">
+						<div class="breadcrumbs__wrapper">
+							<div class="text-left">
+								<h4 class="font__family-montserrat highlight-underline font-weight-ultralight font__size-36 line__height-46">
+									<span class="before wow fadeInUp brk-base-bg-2" style="visibility: visible; animation-name: fadeInUp;"></span>
+                                    {% block breadcrumbs_title %}breadcrumbs_title{% endblock %}<br>
+									<span class="font__weight-bold d-inline-block">{% block breadcrumbs_subtitle %}breadcrumbs_subtitle{% endblock %}</span>
+								</h4>
+							</div>
+							<ol class="breadcrumb font__family-montserrat font__weight-medium font__size-14">
+								<li>
+									<a href="{% url 'core:menu' %}">Menu</a>
+								</li>
+                                {% block breadcrumbs_crumb_intermediate %}
+                                    <li>
+                                        <a href="#">breadcrumbs_crumb_intermediate</a>
+                                    </li>
+                                {% endblock %}
+                                    <li class="active">{% block breadcrumbs_crumb %}breadcrumbs_crumb{% endblock %}</li>
+							</ol>
+						</div>
+					</div>
+				</div>
+    {% endblock %}
+    {% block content %}
+    {% endblock %}
+{% block footer %}
+		<footer class="brk-footer position-relative" data-brk-library="component__footer,twitter_init">
+			<div class="brk-footer__wrapper border-bottom-3 brk-border-color-light brk-bg-center-cover">
+				<div class="brk-abs-bg-overlay brk-base-bg-gradient-13"></div>
+				<div class="container brk-white-font-color">
+					<hr class="horiz-line mt-750 mb-20">
+					<div class="d-flex align-items-center justify-content-sm-between justify-content-center flex-lg-row flex-column flex-wrap mb-25 bottom">
+						<p class="font__family-open-sans font__size-14">
+							© All rights reserved
+						</p>
+						<div class="brk-social-links font__size-14" data-brk-library="component__social_links">
+							<a href="#" class="brk-social-links__item">
+								<i class="fab fa-twitter"></i>
+							</a>
+							<a href="#" class="brk-social-links__item">
+								<i class="fab fa-instagram"></i>
+							</a>
+							<a href="#" class="brk-social-links__item">
+                                <i class="fab fa-facebook-square"></i>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</footer>
+{% endblock %}
+	</div>
+{% block modals %}
+    <!-- Modal -->
+    <div class="modal fade" id="construction" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">En construcción</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+              <p>Estamos trabajando en ello, disculpe las molestias.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+	<a href="#top" id="toTop"></a>
+{% endblock %}
+{% block modals-page %}
+    <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Editar foto de perfil</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+              <form action="{% url 'user:profile_img_upload' %}" method="post" enctype="multipart/form-data"> {% csrf_token %}
+                <div class="file-loading">
+                    <input id="file-es" name="images" type="file" multiple>
+                </div>
+              </form>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock %}
+{% endblock %}
+
+{% block script %}
+	<script defer="defer" src="{% static 'js/scripts.js' %}"></script>
+	<script src="{% static 'vendor/jquery/js/jquery.min.js' %}"></script>
+    <script src="{% static 'drag&drop/js/plugins/piexif.js' %}" type="text/javascript"></script>
+    <script src="{% static 'drag&drop/js/plugins/sortable.js' %}" type="text/javascript"></script>
+    <script src="{% static 'drag&drop/js/fileinput.js' %}" type="text/javascript"></script>
+    <script src="{% static 'drag&drop/js/locales/es.js' %}" type="text/javascript"></script>
+    <script src="{% static 'drag&drop/themes/fas/theme.js' %}" type="text/javascript"></script>
+    <script src="{% static 'drag&drop/themes/explorer-fas/theme.js' %}" type="text/javascript"></script>
+    <script src="{% static 'drag&drop/js/profile_upgrade.js' %}" type="text/javascript"></script>
+    <script>
+        jQuery(function () {
+          jQuery('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
+{% endblock %}
+{% block script-page %}
+
+{% endblock %}
+
+</body>
+{% endblock %}
+{% endblock %}
+</html>

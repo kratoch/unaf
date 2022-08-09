@@ -1,0 +1,330 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head-page %}
+    <link href="{% static 'Datedropper3/datedropper.css' %}" rel="stylesheet" type="text/css" />
+    <link href="{% static 'Datedropper3/themes/my-style.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+{% block breadcrumbs_title %}Movimientos{% endblock %}
+{% block breadcrumbs_subtitle %}Historial{% endblock %}
+{% block breadcrumbs_crumb_intermediate %}{% endblock %}
+{% block breadcrumbs_crumb %}Movimientos{% endblock %}
+{% block content %}
+    <form id="form" enctype="text/plain" method="GET" action="{% url 'move:record' 0 %}">{% csrf_token %}
+        <div class="row d-flex align-content-center mt-2">
+            <div class="col-4"></div>
+            <div class="col-4 brk-form brk-form-strict d-flex justify-content-around">
+                <div class="col-4 mr-2">
+                    <input id="dateDropper" class="form-control dateform text-center brk-bg-color-dark-4" name="date"
+                           style="cursor:pointer" type="text" data-format="Y" data-lang="es" data-init_set="false" data-theme="my-style"></div>
+                <div class="col-4 text-left">
+                    {% for mt in moveType %}
+                        <div class="row mt-0">
+                            <input id="move_type{{ mt.id }}" name="move_type[]" type="checkbox" value="{{ mt.id }}">
+                            <label class="brk-form-radio-label" for="move_type{{ mt.id }}">{{ mt.denomination }}</label>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="col-4">
+                    <button type="submit" href="#" class="icon__btn icon__btn-sm icon__btn-anim" style="margin-top: 30px" data-brk-library="component__button">
+                        <i class="fa fa-filter icon-inside" aria-hidden="true"></i>
+                        <span class="before"></span><span class="after"></span>
+                    </button>
+                </div>
+            </div>
+            <div class="col-4"></div>
+        </div>
+        <div class="container col-10 mt-4">
+            <div class="brk-tabs brk-tabs-bottom-top" data-hash="true" data-index="{% if trimester == 1 %}1{% elif trimester == 2 %}2{% elif trimester == 3 %}3{% elif trimester == 4 %}4{% else %}0{% endif %}" data-brk-library="component__tabs">
+                <ul class="brk-tabs-nav font__family-montserrat">
+                    <li onclick="location.href='{% url 'move:record' 0 %}';" class="brk-tab" aria-hidden="true"><i class="fas fa-archive"></i><span>Todos los cuatrimestres</span></li>
+                    <li onclick="location.href='{% url 'move:record' 1 %}';" class="brk-tab" aria-hidden="true"><i class="fas fa-calendar-alt"></i><span>1er cuatrimestre</span></li>
+                    <li onclick="location.href='{% url 'move:record' 2 %}';" class="brk-tab" aria-hidden="true"><i class="fas fa-calendar-alt"></i><span>2do cuatrimestre</span></li>
+                    <li onclick="location.href='{% url 'move:record' 3 %}';" class="brk-tab" aria-hidden="true"><i class="fas fa-calendar-alt"></i><span>3er cuatrimestre</span></li>
+                    <li onclick="location.href='{% url 'move:record' 4 %}';" class="brk-tab" aria-hidden="true"><i class="fas fa-calendar-alt"></i><span>4to cuatrimestre</span></li>
+                </ul>
+                <div class="brk-tabs-content">
+                    <div class="brk-tab-item">
+                        {% if trimester == 0 and moves.count != 0 %}
+                            <div class="brk-tables brk-tables-strict font__family-montserrat brk-form-strict" data-brk-library="component__tables,datatables_js">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Fecha <i class="fa fa-caret-down" aria-hidden="true"></i></th>
+                                            <th scope="col">Tipo <i class="fa fa-caret-down" aria-hidden="true"></i></th>
+                                            <th scope="col">Laboratorio <i class="fa fa-caret-down" aria-hidden="true"></i></th>
+                                            <th scope="col">Usuario <i class="fa fa-caret-down" aria-hidden="true"></i></th>
+                                            <th scope="col">Reactivos <i class="fa fa-caret-down" aria-hidden="true"></i></th>
+                                            <th scope="col">#</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for m in moves %}
+                                            <tr>
+                                                <td>{{ m.date_move}}</td>
+                                                <td>{{ m.type.denomination }}</td>
+                                                <td>{{ m.lab.name }}</td>
+                                                <td>{{ m.lab.person.user.get_full_name }}</td>
+                                                <td>
+                                                    {% for md in m.move_detail.all %}{{ md.reagent.denomination }}{% if not forloop.last %},{% endif %} {% endfor %}
+                                                </td>
+                                                <td><ins><a href="#" data-toggle="modal" data-target="#detail{{ m.id }}"> ver detalle</a></ins></td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% else %}
+                            <h3 class="title-lines-solid title-lines-main font__size-20" data-brk-library="component__title">
+                                <span class="line"></span>
+                                <span class="text">No existen movimientos</span>
+                                <span class="line"></span>
+                            </h3>
+                        {% endif %}
+                    </div>
+                    <div class="brk-tab-item">
+                        {% if trimester == 1 and moves.count != 0 %}
+                            <div class="brk-tables brk-tables-strict font__family-montserrat brk-form-strict" data-brk-library="component__tables,datatables_js">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" onclick="ordering()">Fecha <i class="fa fa-caret-{% if ordering_by == '-date_move' %}down{% else %}up{% endif %}" aria-hidden="true"></i></th>
+                                            <th scope="col">Tipo <i class="fa fa-caret-down" aria-hidden="true"></i></th>
+                                            <th scope="col">Laboratorio <i class="fa fa-caret-down" aria-hidden="true"></i></th>
+                                            <th scope="col">Usuario <i class="fa fa-caret-down" aria-hidden="true"></i></th>
+                                            <th scope="col">Reactivos <i class="fa fa-caret-down" aria-hidden="true"></i></th>
+                                            <th scope="col">Fecha de carga <i class="fa fa-caret-down" aria-hidden="true"></i></th>
+                                            <th scope="col">#</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for m in moves %}
+                                            <tr>
+                                                <td>{{ m.date_move|date:"d/m/Y" }}</td>
+                                                <td>{{ m.type.denomination }}</td>
+                                                <td>{{ m.lab.name }}</td>
+                                                <td>{{ m.lab.person.user.get_full_name }}</td>
+                                                <td>
+                                                    {% for md in m.move_detail.all %}{{ md.reagent.denomination }}{% if not forloop.last %},{% endif %} {% endfor %}
+                                                </td>
+                                                <td>{{ m.date_today|date:"d/m/Y" }}</td>
+                                                <td><ins><a href="#" data-toggle="modal" data-target="#detail{{ m.id }}"> ver detalle</a></ins></td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% else %}
+                            <h3 class="title-lines-solid title-lines-main font__size-20" data-brk-library="component__title">
+                                <span class="line"></span>
+                                <span class="text">No existen movimientos para este cuatrimestre</span>
+                                <span class="line"></span>
+                            </h3>
+                        {% endif %}
+                    </div>
+                    <div class="brk-tab-item">
+                        {% if trimester == 2 and moves.count != 0 %}
+                            <div class="brk-tables brk-tables-strict font__family-montserrat brk-form-strict" data-brk-library="component__tables,datatables_js">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" onclick="ordering()">Fecha <i class="fa fa-caret-{% if ordering_by == '-date_move' %}down{% else %}up{% endif %}" aria-hidden="true"></i></th>
+                                            <th scope="col">Tipo <i class="fa fa-caret-down" aria-hidden="true"></i></th>
+                                            <th scope="col">Laboratorio <i class="fa fa-caret-down" aria-hidden="true"></i></th>
+                                            <th scope="col">Usuario <i class="fa fa-caret-down" aria-hidden="true"></i></th>
+                                            <th scope="col">Reactivos <i class="fa fa-caret-down" aria-hidden="true"></i></th>
+                                            <th scope="col">Fecha de carga <i class="fa fa-caret-down" aria-hidden="true"></i></th>
+                                            <th scope="col">#</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for m in moves %}
+                                            <tr>
+                                                <td>{{ m.date_move|date:"d/m/Y" }}</td>
+                                                <td>{{ m.type.denomination }}</td>
+                                                <td>{{ m.lab.name }}</td>
+                                                <td>{{ m.lab.person.user.get_full_name }}</td>
+                                                <td>
+                                                    {% for md in m.move_detail.all %}{{ md.reagent.denomination }}{% if not forloop.last %},{% endif %} {% endfor %}
+                                                </td>
+                                                <td>{{ m.date_today|date:"d/m/Y" }}</td>
+                                                <td><ins><a href="#" data-toggle="modal" data-target="#detail{{ m.id }}"> ver detalle</a></ins></td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% else %}
+                            <h3 class="title-lines-solid title-lines-main font__size-20" data-brk-library="component__title">
+                                <span class="line"></span>
+                                <span class="text">No existen movimientos para este cuatrimestre</span>
+                                <span class="line"></span>
+                            </h3>
+                        {% endif %}
+                    </div>
+                    <div class="brk-tab-item">
+                        {% if trimester == 3 and moves.count != 0 %}
+                            <div class="brk-tables brk-tables-strict font__family-montserrat brk-form-strict" data-brk-library="component__tables,datatables_js">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" onclick="ordering()">Fecha <i class="fa fa-caret-{% if ordering_by == '-date_move' %}down{% else %}up{% endif %}" aria-hidden="true"></i></th>
+                                            <th scope="col">Tipo <i class="fa fa-caret-down" aria-hidden="true"></i></th>
+                                            <th scope="col">Laboratorio <i class="fa fa-caret-down" aria-hidden="true"></i></th>
+                                            <th scope="col">Usuario <i class="fa fa-caret-down" aria-hidden="true"></i></th>
+                                            <th scope="col">Reactivos <i class="fa fa-caret-down" aria-hidden="true"></i></th>
+                                            <th scope="col">Fecha de carga <i class="fa fa-caret-down" aria-hidden="true"></i></th>
+                                            <th scope="col">#</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for m in moves %}
+                                            <tr>
+                                                <td>{{ m.date_move|date:"d/m/Y" }}</td>
+                                                <td>{{ m.type.denomination }}</td>
+                                                <td>{{ m.lab.name }}</td>
+                                                <td>{{ m.lab.person.user.get_full_name }}</td>
+                                                <td>
+                                                    {% for md in m.move_detail.all %}{{ md.reagent.denomination }}{% if not forloop.last %},{% endif %} {% endfor %}
+                                                </td>
+                                                <td>{{ m.date_today|date:"d/m/Y" }}</td>
+                                                <td><ins><a href="#" data-toggle="modal" data-target="#detail{{ m.id }}"> ver detalle</a></ins></td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% else %}
+                            <h3 class="title-lines-solid title-lines-main font__size-20" data-brk-library="component__title">
+                                <span class="line"></span>
+                                <span class="text">No existen movimientos para este cuatrimestre</span>
+                                <span class="line"></span>
+                            </h3>
+                        {% endif %}
+                    </div>
+                    <div class="brk-tab-item">
+                        {% if trimester == 4 and moves.count != 0 %}
+                            <div class="brk-tables brk-tables-strict font__family-montserrat brk-form-strict" data-brk-library="component__tables,datatables_js">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th scope="col" onclick="ordering()">Fecha <i class="fa fa-caret-{% if ordering_by == '-date_move' %}down{% else %}up{% endif %}" aria-hidden="true"></i></th>
+                                            <th scope="col">Tipo <i class="fa fa-caret-down" aria-hidden="true"></i></th>
+                                            <th scope="col">Laboratorio <i class="fa fa-caret-down" aria-hidden="true"></i></th>
+                                            <th scope="col">Usuario <i class="fa fa-caret-down" aria-hidden="true"></i></th>
+                                            <th scope="col">Reactivos <i class="fa fa-caret-down" aria-hidden="true"></i></th>
+                                            <th scope="col">Fecha de carga <i class="fa fa-caret-down" aria-hidden="true"></i></th>
+                                            <th scope="col">#</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for m in moves %}
+                                            <tr>
+                                                <td>{{ m.date_move|date:"d/m/Y" }}</td>
+                                                <td>{{ m.type.denomination }}</td>
+                                                <td>{{ m.lab.name }}</td>
+                                                <td>{{ m.lab.person.user.get_full_name }}</td>
+                                                <td>
+                                                    {% for md in m.move_detail.all %}{{ md.reagent.denomination }}{% if not forloop.last %},{% endif %} {% endfor %}
+                                                </td>
+                                                <td>{{ m.date_today|date:"d/m/Y" }}</td>
+                                                <td><ins><a href="#" data-toggle="modal" data-target="#detail{{ m.id }}"> ver detalle</a></ins></td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% else %}
+                            <h3 class="title-lines-solid title-lines-main font__size-20" data-brk-library="component__title">
+                                <span class="line"></span>
+                                <span class="text">No existen movimientos para este cuatrimestre</span>
+                                <span class="line"></span>
+                            </h3>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+{% endblock %}
+{% block modals-page %}
+    {% for m in moves %}
+        <div class="modal fade" id="detail{{ m.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>{{ m.type.denomination }} - {{ m.date_move|date:"d/m/Y" }}</h3>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="font__family-montserrat font__size-16">
+                            <div class="row ml-1">
+                                <p class="font__weight-bold">Laboratorio:</p>&nbsp;<p>{{ m.lab.name }}</p>
+                            </div>
+                            <div class="row ml-1">
+                                <p class="font__weight-bold text-left">Encargado:</p>&nbsp;<p>{{ m.lab.person.user.get_full_name }}</p>
+                            </div>
+                            <div class="mt-2 mb-2">
+                                <ul class="list-inline-2" data-brk-library="component__list">
+                                    {% for md in m.move_detail.all %}
+                                        <li>
+                                            <span class="text"><span class="cirlce">
+                                            <span class="before"></span><span class="after"></span>
+                                            </span>
+                                                {% if md.previous_quant %}
+                                                    {{ md.reagent.denomination }} -
+                                                    de {{ md.previous_quant }}{{ md.reagent.unit.denomination }} a
+                                                    {{ md.quant }}{{ md.reagent.unit.denomination }}
+                                                {% else %}
+                                                    {{ md.reagent.denomination }} - {{ md.quant }}{{ md.reagent.unit.denomination }}
+                                                {% endif %}
+                                            </span>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            {% if m.description %}
+                                <div class="container">
+                                    <div class="cfa__wrapper cfa__outer border-radius-30 dark-shadow text-center" data-brk-library="component__call_to_action">
+                                        <h4 class="font__family-montserrat font__size-21 font__weight-light cfa__heading text-uppercase bg__style overlay__gradient letter-spacing-20 py-2 all-light violet-shadow" style="background-image: url({% static 'img/historiales.jpg' %});">
+                                            Aclaración / Descripción
+                                            <span class="overlay_after brk-base-bg-gradient-14 opacity-90"></span>
+                                        </h4>
+                                        <p class="font__family-open-sans font__size-14 font__weight-light pt-3 text-gray">
+                                            {{ m.description }}</p>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        <p class="text-center brk-base-font-color mt-2">
+                            fecha y hora del movimiento:&nbsp; {{ m.date_today|date:'d/m/Y H:i' }}
+                        </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}
+
+{% block script-page %}
+    <script>
+      const date_init = () => {
+          jQuery('#dateDropper').val({{ year }});
+        {% for check in checks %}
+          jQuery('#{{ check }}').val('che')
+        {% endfor %}
+      };
+      addEventListener('DOMContentLoaded', date_init);
+    </script>
+    <script>
+      function dateDropper(date) {
+            location.href='/movimiento/historial/0/'+ date +'/'
+      }
+    </script>
+    <script src="{% static 'Datedropper3/datedropper.js' %}"></script>
+    <script>
+        jQuery('.dateform').dateDropper();
+    </script>
+{% endblock %}

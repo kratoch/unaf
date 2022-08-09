@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+
+{% block head_page %}
+    <link href="/../static/drag&drop/css/fileinput.css" media="all" rel="stylesheet" type="text/css"/>
+    <link href="/../static/drag&drop/themes/explorer-fas/theme.css" media="all" rel="stylesheet" type="text/css"/>
+{% endblock %}
+
+{% block breadcrumbs_title %}Reactivos{% endblock %}
+{% block breadcrumbs_subtitle %}Alta{% endblock %}
+{% block breadcrumbs_crumb_intermediate %}
+    <li>
+        <a href="{% url 'core:reagent_stock' %}">abml reactivos</a>
+    </li>
+{% endblock %}
+{% block breadcrumbs_crumb %}alta{% endblock %}
+{% block content %}
+<div class="d-flex row">
+    <div class="col-1">
+    </div>
+    <div class="col-9">
+        <form id="objectForm" enctype="multipart/form-data" method="POST" action="{% url 'core:reagent_create' %}">
+            {% csrf_token %}
+            <div class="brk-form brk-form-strict">
+                <div class="alerts" data-brk-library="component__alert">
+                </div>
+                {% if reagentUpd %}
+                    <input type="text" name="reagentUpd" value="{{ reagentUpd.id }}" hidden>
+                {% endif %}
+                <div class="col-6 pl-0">
+                    <input name="code" maxlength="50" type="text" {% if reagentUpd.code %}value="{{ reagentUpd.code }}"{% endif %} placeholder="Ingrese código del reactivo" autocomplete="off">
+                </div>
+
+                <div class="col-6 pl-0">
+                    <input name="reagentName" maxlength="50" type="text" {% if reagentUpd.denomination %}value="{{ reagentUpd.denomination }}"{% endif %} placeholder="Ingrese denominación del reactivo" autocomplete="off" required>
+                </div>
+
+                <div class="brk-color-filter__container">
+                    <input id="stockInpt" name="stock" type="text" {% if reagentUpd %}value="{{ reagentUpd.quant }}"{% endif %} placeholder="Ingrese stock"  data-toggle="tooltip" title="Antes de continuar, verifique que el valor ingresado es correcto" autocomplete="off" required>
+                </div>
+                {% if reagentUpd %}
+                    <div class="alert fade alert-simple alert-info alert-dismissible text-left font__family-montserrat font__size-16 font__weight-light mt-3 mb-0" role="alert" data-brk-library="component__alert">
+                        <button type="button" class="close font__size-18" data-dismiss="alert">
+                            <span aria-hidden="true">
+                                <i class="fal fa-times"></i>
+                            </span>
+                            <span class="sr-only">Close</span>
+                        </button>
+                        <i class="start-icon far fa-info-circle"></i>
+                        <strong class="font__weight-semibold">Atención!</strong> en caso de modificar el valor de stock del reactivo, el sistema registrará dicho movimiento.
+                    </div>
+                {% endif %}
+                <div>
+                    <label>
+                        <select id="unit" class="select-xl" name="unit" required>
+                            <option value="">Seleccione Unidad *&nbsp;&nbsp;&nbsp;&nbsp;</option>
+                            {% for u in unit %}
+                                <option value="{{ u.id }}">{{ u.denomination }} &nbsp;&nbsp;&nbsp;</option>
+                            {% endfor %}
+                        </select>
+                    </label>
+                </div>
+                {% if reagentUpd %}
+                    <div class="justify-content-center col-8 pt-3 pl-0 text-center font-weight-bold">
+                        <textarea id="brk-textarea-form" name="description" placeholder="Aclaración/Descripción"></textarea>
+                    </div>
+                {% endif %}
+                <div class="brk-sc-divider mb-30"></div>
+                <div class="d-flex justify-content-between">
+                    <a href="{% url 'core:reagent_stock' %}" class="btn btn-prime btn-lg btn-icon-abs border-radius-0 font__family-open-sans font__weight-bold btn-min-width-200">
+                        <span class="before"></span><span class="after"></span><span class="border-btn"></span>Cancelar
+                    </a>
+                    <button type="submit" class="btn btn-gradient btn-lg brk-bg-color-dark-4 border-radius-0 font__family-montserrat font__weight-light brk-white-font-color btn-min-width-200">
+                        <span>Aceptar</span>
+                    </button>
+                </div>
+            </div>
+         </form>
+    </div>
+</div>
+{% endblock %}
+{% block script-page %}
+    <script>
+      const unit_init = () => {
+          jQuery('#unit').val({{ reagentUpd.unit_id }})
+      };
+      addEventListener('DOMContentLoaded', unit_init);
+    </script>
+    <script>
+        {% if expenseUpd %}
+                jQuery(document).ready(function (){
+                jQuery("#owner option[value=" + {{reagentUpd.person.id}} + "]").attr("selected",true);
+            });
+        {% endif %}
+
+        jQuery('#objectForm').on('keyup keypress', function(e) {
+             var keyCode = e.keyCode || e.which;
+             if (keyCode === 13) {
+               e.preventDefault();
+               return false;
+             }
+        });
+
+        jQuery("#stockInpt").on({
+            "keyup": function (event) {
+                jQuery(event.target).val(function (index, value ) {
+                    return value.replace(/\D/g, "")
+                                .replace(/([0-9])([0-9]{2})$/, '$1,$2')
+                                .replace(/\B(?=(\d{3})+(?!\d)\.?)/g, ".");
+                });
+            }
+        });
+    </script>
+    <script>
+        jQuery(function () {
+          jQuery('[data-toggle="tooltip"]').tooltip(
+          )
+        })
+    </script>
+{% endblock %}

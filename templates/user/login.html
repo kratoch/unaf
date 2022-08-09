@@ -1,0 +1,89 @@
+<html lang="en" data-brk-skin="brk-dark-blue-1.css">
+
+<head>
+	<title>Unaf- Sedronar login</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,height=device-height,initial-scale=1,maximum-scale=1">
+	<meta name="format-detection" content="telephone=no">
+	<link rel="shortcut icon" href="/../static/favicon.ico">
+	<link rel="apple-touch-icon-precomposed" href="/../static/favicon.ico">
+	<meta name="theme-color" content="#2775FF">
+	<meta name="keywords" content="themeforest, theme, html, template">
+	<meta name="description" content="themeforest, theme, html, template">
+	<link rel="stylesheet" id="brk-direction-bootstrap" href="/../static/css/assets/bootstrap.css">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+	<link rel="stylesheet" id="brk-skin-color" href="/../static/css/skins/brk-dark-blue-1.css">
+	<link id="brk-base-color" rel="stylesheet" href="/../static/css/skins/brk-base-color.css">
+	<link rel="stylesheet" id="brk-direction-offsets" href="/../static/css/assets/offsets.css">
+	<link id="brk-css-min" rel="stylesheet" href="/../static/css/assets/styles.min.css">
+</head>
+
+<body>
+        <div class="brk-backgrounds brk-base-bg-1 brk-base-2-font-color full-screen" data-brk-library="component__backgrounds_css">
+        	<div class="brk-backgrounds__before brk-base-bg-gradient-2 brk-backgrounds_gradient-flash"></div>
+        	<div class="brk-backgrounds__after" style="background-image: url(../static/img/backgrounds/backgrounds-1.png)"></div>
+        	<div class="brk-backgrounds__content">
+                <div class="container mt-150 mb-150">
+					<div class="row text-center">
+                        <div class="col-2"></div>
+                        <div class="col-8">
+							<a href="#" class="z-index-2 mb-60 pl-15 pr-15">
+								<img src="/../static/img/logo-unaf-white.png" alt="logo" class="w-25">
+                                <h1 class="font__family-montserrat-alt font__weight-bold line__height-60 brk-white-font-color font__size-56">Sedronar</h1>
+							</a>
+                        <div class="col-2"></div>
+			        </div>
+                    </div>
+  					<div class="row text-center" data-brk-library="component__title">
+                        <div class="col-2"></div>
+                        <div class="col-8">
+						    <div class="divider-layers wow zoomIn" data-brk-library="component__title"><span class="before"></span></div>
+                            <div class="d-flex flex-wrap justify-content-between align-items-center">
+                                <div></div>
+                                <form action="{% url 'user:loginPage' %}" method="post" class="brk-form brk-form-transparent col-8 maxw-570 mx-auto mx-lg-0" data-brk-library="component__form">
+                                    {% csrf_token %}
+                                    {% if error %}
+                                    <div class="alert fade alert-rounded alert-danger alert-dismissible text-left font__family-montserrat font__size-16 font__weight-light" role="alert" data-brk-library="component__alert">
+                                        <button type="button" class="close font__size-18" data-dismiss="alert">
+                                            <span aria-hidden="true">
+                                                <i class="fal fa-times"></i>
+                                            </span>
+                                            <span class="sr-only">Cerrar</span>
+                                        </button>
+                                        <i class="start-icon far fa-lg fa-times-circle"></i>
+                                        <strong class="font__weight-semibold">Error!!</strong>{{ error }}
+                                    </div>
+                                    {% endif %}
+                                    <div class="advice1 mt-2" data-brk-library="component__alert">
+                                    </div>
+                                    <input class="brk-form-input-transparent mb-2" type="text" name="username" placeholder="Usuario" required>
+                                    <input class="brk-form-input-transparent" type="password" name="password" placeholder="Contraseña" required>
+                                    <div class="no-margin pl-10 pr-10 mb-30 mt-40 d-flex flex-wrap justify-content-around align-items-center">
+                                        <div>
+                                            <a class="font__size-14 line__height-24 brk-white-font-color text-decoration_underline" href="">Olvidaste tu contraseña?</a>
+                                        </div>
+                                        <div>
+                                           <a class="font__size-14 line__height-24 brk-white-font-color text-decoration_underline" href="">Registrarse</a>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex flex-wrap justify-content-between align-items-center flex-column flex-lg-row">
+                                        <div></div>
+                                        <button type="submit" class="btn-backgrounds btn-backgrounds_transparent btn-backgrounds_left-icon font__family-montserrat font__weight-bold text-uppercase z-index-2 text-center" data-brk-library="component__button">
+                                            <span class="text font__size-16 letter-spacing-40">Aceptar</span>
+                                            <span class="before"><i class="fas fa-sign-in-alt"></i></span>
+                                        </button>
+                                        <div></div>
+                                    </div>
+                                </form>
+                                <div></div>
+                            </div>
+						    <div class="divider-layers wow zoomIn" data-brk-library="component__title"><span class="before"></span></div>
+                        </div>
+  					</div>
+                </div>
+            </div>
+	</div>
+	<script defer="defer" src="/../static/js/scripts.js"></script>
+</body>
+
+</html>

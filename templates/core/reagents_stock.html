@@ -1,0 +1,165 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Unaf - Stock
+{% endblock %}
+{% block breadcrumbs_title %}Reactivos{% endblock %}
+{% block breadcrumbs_subtitle %}ABML{% endblock %}
+{% block breadcrumbs_crumb_intermediate %}{% endblock %}
+{% block breadcrumbs_crumb %}abml reactivos{% endblock %}
+{% block content %}
+    <div class="main-wrapper">
+		<main class="main-container pb-50 pt-70">
+        {% if 'ok' in request.GET %}
+	    	<div class="d-flex align-content-center">
+	    		<div class="alert fade alert-simple alert-success alert-dismissible text-left font__family-montserrat font__size-16 font__weight-light" role="alert" data-brk-library="component__alert">
+	    			<button type="button" class="close font__size-18" data-dismiss="alert">
+	    				<span aria-hidden="true"><i class="fal fa-times"></i></span>
+	    				<span class="sr-only">Close</span>
+	    			</button>
+	    			<i class="start-icon far fa-check-circle"></i>
+	    			<strong class="font__weight-semibold">Reactivo guardado</strong> con exito!! &nbsp;
+	    		</div>
+	    	</div>
+        {% endif %}
+            <form action="{% url 'core:reagents_remove_select' %}" enctype="multipart/form-data" method="POST">
+            {% csrf_token %}
+            <section class="ml-110">
+                <div class="row ml-2">
+                    <div>
+                        <a href="{% url 'core:reagent_create' %}" class="icon__btn icon__btn-sm icon__btn-anim" data-toggle="tooltip" title="Nuevo reactivo" data-brk-library="component__button">
+                            <i class="fas fa-plus icon-inside" aria-hidden="true"></i>
+                            <span class="before"></span><span class="after"></span>
+                        </a>
+                    </div>
+                    <div>
+                        <button id="delete-select" class="icon__btn icon__btn-sm icon__btn-anim bg-danger" type="submit" data-toggle="tooltip" title="Borrar seleccionados" onclick="return confirm('Estás seguro que deseas eliminar los productos seleccionados?')" hidden>
+                            <i class="fa fa-trash icon-inside" aria-hidden="true"></i>
+                            <span class="before"></span><span class="after"></span>
+                        </button>
+                    </div>
+                </div>
+			    <div class="brk-tables brk-tables-pedestal font__family-montserrat mr-10" data-brk-library="component__tables">
+                   <div id="DataTables_Table_0_filter" class="dataTables_filter">
+                       <label>buscar:<input id="search" type="search"></label>
+                   </div>
+			    	<table id="table" class="col-12">
+			    		<thead>
+                            <tr class="text-center">
+                                <th><input id="select-all" type="checkbox"></th>
+                                <th class="sorted" scope="col"><a href="javascript:void(0)">Código</a></th>
+                                <th class="sorted" scope="col"><a href="javascript:void(0)">Reactivo</a></th>
+                                <th class="sorted" scope="col"><a href="javascript:void(0)">Stock</a></th>
+                                <th scope="col">Botones</th>
+                            </tr>
+			    		</thead>
+			    		<tbody>
+                        {% if reagents %}
+                        {% for r in reagents %}
+                            <tr class="text-center">
+                                <td><input value="{{ r.id }}" class="delete-check mt-4" type="checkbox" name="delete[]"></td>
+                                <td>{{ r.code}}</td>
+                                <td>{{ r.denomination}}</td>
+                                <td class="px-1">
+                                    {% if r.quant %}
+                                        <p class="text-blue">{{ r.quant }} {{ r.unit.denomination }}</p>
+                                    {% else %}
+                                        <p class="text-blue">Sin Stock</p>
+                                    {% endif %}
+                                </td>
+                                <td class="d-inline-flex">
+                                    <a  class="icon__btn icon__btn-sm icon__btn-anim bg-success" data-toggle="tooltip" title="Editar" href="{% url 'core:reagent_update' r.id %}" onclick="return confirm('Estás seguro que deseas editar {{ r.denomination }}?')">
+                                        <i class="fa fa-edit icon-inside" aria-hidden="true"></i>
+                                        <span class="before bg-success"></span><span class="after"></span>
+			    		            </a>
+                                    <a class="icon__btn icon__btn-sm icon__btn-anim bg-danger" data-toggle="tooltip" title="Borrar" href="{% url 'core:reagent_remove' r.id %}" onclick="return confirm('Estás seguro que deseas eliminar {{ r.denomination }}?')">
+                                        <i class="fa fa-trash icon-inside" aria-hidden="true"></i>
+                                        <span class="before"></span><span class="after"></span>
+			    		            </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
+			    		</tbody>
+			    	</table>
+			    </div>
+			</section>
+            </form>
+		</main>
+	</div>
+
+{% endblock %}
+{% block script-page %}
+    <script>
+        jQuery("#search").keyup(function () {
+            _this = this;
+            // Show only matching TR, hide rest of them
+            jQuery.each(jQuery("#table tbody tr"), function () {
+                if (jQuery(this).text().toLowerCase().indexOf(jQuery(_this).val().toLowerCase()) === -1)
+                    jQuery(this).hide();
+                else
+                    jQuery(this).show();
+            });
+        });
+
+    </script>
+    <script>
+    jQuery('.sorted').click(function() {
+        var table = jQuery(this).parents('table').eq(0);
+        var rows = table.find('tr:gt(0)').toArray().sort(comparer(jQuery(this).index()));
+        this.asc = !this.asc;
+        if (!this.asc) {
+          rows = rows.reverse()
+        }
+        for (var i = 0; i < rows.length; i++) {
+          table.append(rows[i])
+        }
+        setIcon(jQuery(this), this.asc);
+      });
+  function comparer(index) {
+    return function(a, b) {
+      var valA = getCellValue(a, index),
+        valB = getCellValue(b, index);
+      return jQuery.isNumeric(valA) && jQuery.isNumeric(valB) ? valA - valB : valA.localeCompare(valB)
+    }
+  }
+
+  function getCellValue(row, index) {
+    return jQuery(row).children('td').eq(index).html()
+  }
+
+  function setIcon(element, asc) {
+    jQuery("th").each(function(index) {
+      jQuery(this).removeClass("sorting");
+      jQuery(this).removeClass("asc");
+      jQuery(this).removeClass("desc");
+    });
+    element.addClass("sorting");
+    if (asc) element.addClass("asc");
+    else element.addClass("desc");
+  }
+
+    jQuery("#select-all").on("click", function() {
+        jQuery(".delete-check").prop("checked", this.checked);
+        if (jQuery(".delete-check:checked").length === 0) {
+          $("#delete-select").prop("hidden", true);
+        } else {
+          $("#delete-select").prop("hidden", false);
+        }
+    });
+
+    // if all checkbox are selected, check the selectall checkbox and viceversa
+    jQuery(".delete-check").on("click", function() {
+      if (jQuery(".delete-check").length === jQuery(".delete-check:checked").length) {
+        $("#select-all").prop("checked", true);
+      } else {
+        $("#select-all").prop("checked", false);
+      }
+      if (jQuery(".delete-check:checked").length === 0) {
+        $("#delete-select").prop("hidden", true);
+      } else {
+        $("#delete-select").prop("hidden", false);
+      }
+    });
+    </script>
+{% endblock %}
