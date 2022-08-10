@@ -8,13 +8,13 @@
     <link href="{% static 'drag&drop/themes/explorer-fas/theme.css' %}" media="all" rel="stylesheet' %}" type="text/css"/>
 {% endblock %}
 {% block breadcrumbs_title %}Movimientos{% endblock %}
-{% block breadcrumbs_subtitle %}Consumo{% endblock %}
+{% block breadcrumbs_subtitle %}Consumo/Perdida{% endblock %}
 {% block breadcrumbs_crumb_intermediate %}
     <li>
         <a href="{% url 'move:record' 0 %}">Movimientos</a>
     </li>
 {% endblock %}
-{% block breadcrumbs_crumb %}consumo{% endblock %}
+{% block breadcrumbs_crumb %}consumo/perdida{% endblock %}
 {% block content %}
     <div class="main-wrapper">
 		<main class="main-container pb-50 pt-70">

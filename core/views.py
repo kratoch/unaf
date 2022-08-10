@@ -17,8 +17,8 @@ def index(request):
 @login_required
 def menu(request):
     # Clean session variables for register module
-    """request.session['username'] = None
-    request.session['password'] = None
+    request.session['move_type_filter'] = None
+    """request.session['password'] = None
     request.session['email'] = None
     request.session['firstName'] = None
     request.session['name'] = None

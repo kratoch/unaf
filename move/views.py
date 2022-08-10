@@ -50,10 +50,6 @@ def record(request, trimester):
     global msg, person, notifications, moves
     person = Person.objects.get(user=request.user)
     moveType = MoveType.objects.all()
-    ordering_by = '-date_move'
-    if request.GET:
-        if request.GET['ordering_by'] == 'date_move':
-            ordering_by = 'date_move'
     try:
         year = request.GET['date']
         request.session['date'] = year
@@ -63,40 +59,38 @@ def record(request, trimester):
         except Exception as e:
             print(e)
             year = datetime.today().strftime('%Y')
-    context = {'person': person, 'year': year, 'moveType': moveType, 'ordering_by': ordering_by}
+    context = {'person': person, 'year': year, 'moveType': moveType}
     try:
         notifications = Notification.objects.filter(person__user=request.user)
     except Exception as e:
         print(e)
     if trimester == 0:
-        try:
-            moves = Move.objects.filter(lab__person=person, date_move__year=year).order_by(ordering_by)
-        except Exception as e:
-            print(e)
+        date_move__range = [year + '-01-01', year + '-12-31']
     elif trimester == 1:
-        try:
-            moves = Move.objects.filter(lab__person=person, date_move__range=[year + '-01-01',
-                                                                              year + '-03-31']).order_by(ordering_by)
-        except Exception as e:
-            print(e)
+        date_move__range = [year + '-01-01', year + '-03-31']
     elif trimester == 2:
-        try:
-            moves = Move.objects.filter(lab__person=person, date_move__range=[year + '-04-01',
-                                                                              year + '-06-30']).order_by(ordering_by)
-        except Exception as e:
-            print(e)
+        date_move__range = [year + '-04-01', year + '-06-30']
     elif trimester == 3:
-        try:
-            moves = Move.objects.filter(lab__person=person, date_move__range=[year + '-07-01',
-                                                                              year + '-09-30']).order_by(ordering_by)
-        except Exception as e:
-            print(e)
+        date_move__range = [year + '-07-01', year + '-09-30']
     else:
+        date_move__range = [year + '-10-01', year + '-12-31']
+    try:
+        if request.GET['move_type[]']:
+            request.session['move_type_filter'] = request.GET.getlist('move_type[]')
+            context['move_type_filter'] = request.GET.getlist('move_type[]')
+            moves = Move.objects.filter(lab__person=person, date_move__range=date_move__range,
+                                        type__in=request.GET.getlist('move_type[]'))
+    except Exception as e:
+        print(e)
         try:
-            moves = Move.objects.filter(lab__person=person, date_move__range=[year + '-10-01',
-                                                                              year + '-12-31']).order_by(ordering_by)
+            moves = Move.objects.filter(lab__person=person, date_move__range=date_move__range,
+                                        type__in=request.session['move_type_filter'])
+            context['move_type_filter'] = request.session['move_type_filter']
         except Exception as e:
             print(e)
+            moves = Move.objects.filter(lab__person=person, date_move__range=date_move__range)
+            request.session['move_type_filter'] = ['1', '2', '3']
+            context['move_type_filter'] = request.session['move_type_filter']
     context['moves'] = moves
     context['trimester'] = trimester
     return render(request, 'move/record.html', context)

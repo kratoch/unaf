@@ -88,7 +88,7 @@
                                 <table>
                                     <thead>
                                         <tr>
-                                            <th scope="col" onclick="ordering()">Fecha <i class="fa fa-caret-{% if ordering_by == '-date_move' %}down{% else %}up{% endif %}" aria-hidden="true"></i></th>
+                                            <th scope="col">Fecha <i class="fa fa-caret-down" aria-hidden="true"></i></th>
                                             <th scope="col">Tipo <i class="fa fa-caret-down" aria-hidden="true"></i></th>
                                             <th scope="col">Laboratorio <i class="fa fa-caret-down" aria-hidden="true"></i></th>
                                             <th scope="col">Usuario <i class="fa fa-caret-down" aria-hidden="true"></i></th>
@@ -128,7 +128,7 @@
                                 <table>
                                     <thead>
                                         <tr>
-                                            <th scope="col" onclick="ordering()">Fecha <i class="fa fa-caret-{% if ordering_by == '-date_move' %}down{% else %}up{% endif %}" aria-hidden="true"></i></th>
+                                            <th scope="col">Fecha <i class="fa fa-caret-down" aria-hidden="true"></i></th>
                                             <th scope="col">Tipo <i class="fa fa-caret-down" aria-hidden="true"></i></th>
                                             <th scope="col">Laboratorio <i class="fa fa-caret-down" aria-hidden="true"></i></th>
                                             <th scope="col">Usuario <i class="fa fa-caret-down" aria-hidden="true"></i></th>
@@ -168,7 +168,7 @@
                                 <table>
                                     <thead>
                                         <tr>
-                                            <th scope="col" onclick="ordering()">Fecha <i class="fa fa-caret-{% if ordering_by == '-date_move' %}down{% else %}up{% endif %}" aria-hidden="true"></i></th>
+                                            <th scope="col">Fecha <i class="fa fa-caret-down" aria-hidden="true"></i></th>
                                             <th scope="col">Tipo <i class="fa fa-caret-down" aria-hidden="true"></i></th>
                                             <th scope="col">Laboratorio <i class="fa fa-caret-down" aria-hidden="true"></i></th>
                                             <th scope="col">Usuario <i class="fa fa-caret-down" aria-hidden="true"></i></th>
@@ -208,7 +208,7 @@
                                 <table>
                                     <thead>
                                         <tr>
-                                            <th scope="col" onclick="ordering()">Fecha <i class="fa fa-caret-{% if ordering_by == '-date_move' %}down{% else %}up{% endif %}" aria-hidden="true"></i></th>
+                                            <th scope="col">Fecha <i class="fa fa-caret-down" aria-hidden="true"></i></th>
                                             <th scope="col">Tipo <i class="fa fa-caret-down" aria-hidden="true"></i></th>
                                             <th scope="col">Laboratorio <i class="fa fa-caret-down" aria-hidden="true"></i></th>
                                             <th scope="col">Usuario <i class="fa fa-caret-down" aria-hidden="true"></i></th>
@@ -312,12 +312,19 @@
     <script>
       const date_init = () => {
           jQuery('#dateDropper').val({{ year }});
-        {% for check in checks %}
-          jQuery('#{{ check }}').val('che')
-        {% endfor %}
       };
       addEventListener('DOMContentLoaded', date_init);
     </script>
+    {% if move_type_filter %}
+        <script>
+          const move_type_filter = () => {
+            {% for mtf in move_type_filter %}
+                jQuery("#move_type{{ mtf }}").prop("checked", true);
+            {% endfor %}
+          };
+          addEventListener('DOMContentLoaded', move_type_filter);
+        </script>
+    {% endif %}
     <script>
       function dateDropper(date) {
             location.href='/movimiento/historial/0/'+ date +'/'

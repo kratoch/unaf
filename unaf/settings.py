@@ -64,6 +64,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                # 'django.template.context_processors.media',
             ],
         },
     },
@@ -130,7 +131,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 STATICFILES_DIRS = (os.path.join(BASE_DIR, 'unaf/static'),)
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'unaf/media')
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 if DEBUG:
     EMAIL_HOST = 'smtp.gmail.com'
@@ -140,6 +140,7 @@ if DEBUG:
     EMAIL_HOST_PASSWORD = 'prjcinjhlpqgccmy'
     EMAIL_USE_SSL = True
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 DATE_FORMAT = "%d-%m-%Y %H:%M:%S"
 
 # Auth Redirect
