@@ -24,7 +24,7 @@ def consumption(request):
     if request.POST:
         lab = Lab.objects.get(person__user=request.user)
         date = datetime.strptime(request.POST['date'], "%d/%m/%Y").strftime("%Y-%m-%d")
-        move = Move(lab=lab, type=MoveType.objects.get(id=1), date_move=date)  # tipo_id = 1 ---> Consumo
+        move = Move(lab=lab, type=MoveType.objects.get(id=request.POST['move']), date_move=date)  # tipo_id = 1 ---> Consumo
         try:
             move.description = request.POST['description']
         except Exception as e:
@@ -40,7 +40,8 @@ def consumption(request):
             move.save()
             reagent.quant = float(reagent.quant) - float(quant)
             reagent.save()
-        return redirect(reverse('move:consumption') + '?ok')
+            print(type(request.POST['move']))
+        return redirect(reverse('move:consumption') + ('?consumptionOk' if request.POST['move'] == '1' else '?lossOk'))
     reagents = Reagent.objects.filter(lab__person__user=request.user)
     context['reagents'] = reagents
     return render(request, 'move/consumption.html', context)
